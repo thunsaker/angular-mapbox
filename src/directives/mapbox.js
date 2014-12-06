@@ -25,7 +25,8 @@ angular.module('angularMapbox').directive('mapbox', function($compile, $q) {
       var mapWidth = attrs.width || 500;
       var mapHeight = attrs.height || 500;
       element.css('width', mapWidth + 'px');
-      element.css('height', mapHeight + 'px');
+      if(mapHeight != 'auto')
+        element.css('height', mapHeight + 'px');
 
       var zoom = attrs.zoom || 12;
       if(attrs.lat && attrs.lng) {
