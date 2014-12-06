@@ -7,7 +7,19 @@ angular.module('angularMapbox').directive('mapbox', function($compile, $q) {
     scope: true,
     replace: true,
     link: function(scope, element, attrs) {
-      scope.map = L.mapbox.map(element[0], attrs.mapId);
+      if(attrs.zoomcontrolposition) {
+        scope.map = L.mapbox.map(element[0], attrs.mapId, {
+          zoomControl: false
+        });
+        var zoomPosition = attrs.zoomcontrolposition;
+        if(zoomPosition === 'bottomleft' || zoomPosition === 'bottomright' || zoomPosition === 'topright') {
+          L.control.zoom({position: zoomPosition}).addTo(scope.map);
+        } else {
+          L.control.zoom({position: 'topleft'}).addTo(scope.map);
+        }
+      } else {
+        scope.map = L.mapbox.map(element[0], attrs.mapId);
+      }
       _mapboxMap.resolve(scope.map);
 
       var mapWidth = attrs.width || 500;
